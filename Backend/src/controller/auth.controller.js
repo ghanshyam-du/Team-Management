@@ -70,4 +70,4 @@ const hanldeLogin = async (req, res, next) =>{
 
 
 
-export default {hanldeLogin, handleRegister};
+export {hanldeLogin, handleRegister};

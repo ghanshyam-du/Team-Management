@@ -11,6 +11,11 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.use('/api', userAuth);
 
 
