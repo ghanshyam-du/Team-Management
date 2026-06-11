@@ -1,59 +1,144 @@
+# Team Management Service
+
 ## Setup
 
 ---
-For frontend 
-move inside the frontend folder
-npm i
+
+### Frontend
+
+1. Move inside the frontend folder:
+
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
 npm run dev
-
-
-
-For Backend 
-move inside the Backend folder
-
-create .env file 
-
-PORT = 
-DB_URI = 
-JWT_SECRET = 
-
-run npm i 
-npm run dev
-
+```
 
 ---
 
-## API
+### Backend
 
-### Auth
-POST "/api/auth/register" - for everyone to register new user
-POST "/api/auth/login" - for everyone to login 
- 
+1. Move inside the backend folder:
+
+```bash
+cd backend
+```
+
+2. Create a `.env` file and add the following variables:
+
+```env
+PORT=
+DB_URI=
+JWT_SECRET=
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Start the development server:
+
+```bash
+npm run dev
+```
+
+---
+
+## API Documentation
+
+### Authentication
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login user |
+
+---
+
 ### Teams
 
-GET "/api/teams" - for everyone can see the team 
-GET "/api/teams/my" - for everyone 
-GET "/api/teams/:id"
-POST "/api/teams" for manager only to ccreate new team 
-PATCH "/api/teams" for manager and team_lead can update team_name and description only and manager can change the team_lead
-DELETE "/api/teams/:id" for manager only to delete team
+| Method | Endpoint | Access | Description |
+|----------|----------|----------|-------------|
+| GET | `/api/teams` | All Users | Fetch all teams |
+| GET | `/api/teams/my` | All Users | Fetch teams associated with the logged-in user |
+| GET | `/api/teams/:id` | All Users | Fetch a specific team |
+| POST | `/api/teams` | Manager Only | Create a new team |
+| PATCH | `/api/teams/:id` | Manager / Team Lead | Update team details. Team Lead can update only `teamName` and `description`, while Manager can also change the Team Lead |
+| DELETE | `/api/teams/:id` | Manager Only | Delete a team |
+
+---
 
 ### Members
 
-GET "/api/teams/:teamId/members"  for everyone to fetch all the team member
-POST "/api/teams/:teamId/members" for manager/team_lead to add new members in the team 
-DELETE "/api/teams/:teamId/members/:userId" for manager/team_lead to delete the member of the team
+| Method | Endpoint | Access | Description |
+|----------|----------|----------|-------------|
+| GET | `/api/teams/:teamId/members` | All Users | Fetch all members of a team |
+| POST | `/api/teams/:teamId/members` | Manager / Team Lead | Add a member to a team |
+| DELETE | `/api/teams/:teamId/members/:userId` | Manager / Team Lead | Remove a member from a team |
 
+---
 
-### Users (manager only)
+### Users
 
-GET "/api/users" to fetch all the employee 
-GET "/api/users/:id"  to fetch particular employee
-DELETE "/api/users/:id" to delete employee
+> **Manager Only**
 
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| GET | `/api/users` | Fetch all employees |
+| GET | `/api/users/:id` | Fetch a specific employee |
+| DELETE | `/api/users/:id` | Delete an employee |
 
-## Assumptions 
+---
 
--There will be two role Manager and employee. Manager has all the access like to create the team, delet the team etc.
--we have created the three model user(follows user related schema), team(follows team realted schema how the team creates and what are the information it will going to hold), member_join model depends on the user model and team model(which member will going to join at what possition like team_lead or member)
--Team lead have limited controle on the team like team lead not allow to delete the team 
+## Assumptions
+
+- The system supports two roles:
+  - **Manager**
+  - **Employee**
+
+- Managers have full access to the system, including:
+  - Creating teams
+  - Updating teams
+  - Deleting teams
+  - Managing employees
+
+- The application consists of the following models:
+
+  ### User Model
+  Stores user-related information such as:
+  - Name
+  - Email
+  - Password
+  - Role
+
+  ### Team Model
+  Stores team-related information such as:
+  - Team Name
+  - Description
+  - Team Lead
+
+  ### Member Join Model
+  Acts as a bridge between the **User** and **Team** models and stores:
+  - User ID
+  - Team ID
+  - Position in the team (`team_lead` or `member`)
+
+- Team Leads have limited control over teams:
+  - Can update team name and description
+  - Can manage team members
+  - Cannot delete teams
+  - Cannot assign another Team Lead
+
+---
