@@ -4,16 +4,18 @@ import User from "../model/user.model.js"
 
 const authenticate = async (req, res, next) =>{
    try {
-    const authHeader = req.body.authrization;
+    const authHeader = req.headers.authorization;
+
+    console.log("header", authHeader);
 
     if(!authHeader) {
         return res.status(401).json({success: false, message: "Token required"});
     }
 
     const token = authHeader.split(" ")[1];
-
+    let decoded
     try {
-    let  decoded = jwt.verify(token, process.env.JWT_SECRET);
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
       return res.status(401).json({
         success: false,
@@ -21,7 +23,7 @@ const authenticate = async (req, res, next) =>{
       });
     }
 
-    const user = await User.findById(decode.id);
+    const user = await User.findById(decoded.id);
     
     if(!user) {
       return res.status(401).json({success: false, message: "User not found"});
@@ -31,6 +33,7 @@ const authenticate = async (req, res, next) =>{
 
     next();
    } catch (error) {
+    res.status(400).json({success: false, message: "User not found", error});
      next(error);
    }
 }

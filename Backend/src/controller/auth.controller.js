@@ -31,7 +31,7 @@ const handleRegister = async (req, res, next) => {
         res.status(201).json({ success: true, message: "User registered successfully!" });
 
     } catch (error) {
-       res.status(400).json({error: "something went wrong :", details: error.message })
+      return res.status(400).json({error: "something went wrong :", details: error.message })
 
     }
 }
@@ -42,28 +42,32 @@ const hanldeLogin = async (req, res, next) =>{
     try {
         let {email, password} =  req.body;
 
-        const present = await User.findOne({where: {email}});
+        const present = await User.findOne({email});
+        console.log("login data", present);
 
         if(!present) {
-            res.status(400).json({success: false, message: "User not found!"});
+           return  res.status(400).json({success: false, message: "User not found!"});
         }
 
         const match = await bcrypt.compare(password, present.password);
+        console.log("match", match);
         
         if(!match){
-            res.status(400).json({success: false, message: "Password is incorrect"});
+           return res.status(400).json({success: false, message: "Password is incorrect"});
         }
+         console.log("match", match);
 
         const token = jwt.sign(
-            {id :User._id, role: User.role },
-            process.env.JWT_SECTRE,
+            {id :present._id, role: present.role },
+            process.env.JWT_SECRET,
             {expiresIn: "7d"}
         );
+        console.log("token", token);
 
-        res.status(200).json({success: true, message: "Login Successful", token});
+       return res.status(200).json({success: true, message: "Login Successful", token});
 
     } catch (error) {
-        res.status(400).json({error: "something went wrong :", details: error.message });
+       return res.status(400).json({error: "something went wrong :", details: error.message });
         
     }
 }

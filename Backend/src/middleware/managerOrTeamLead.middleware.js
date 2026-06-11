@@ -1,4 +1,4 @@
-import joinTeam from "../model/member_join.model";
+import joinTeam from "../model/member_join.model.js";
 
 const managerOrTeamLead = async (req, res, next) => {
   try {

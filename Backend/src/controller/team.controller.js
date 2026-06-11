@@ -66,8 +66,10 @@ const createTeam = async (req, res, next) => {
         created_by: req.user._id,
       });
 
+      console.log("team", team);
+
     
-      await JoinTeam.create({
+      await joinTeam.create({
         userId: team_lead,
         teamId: team._id,
         role: "team_lead",
@@ -87,7 +89,7 @@ const createTeam = async (req, res, next) => {
     }
   };
 
-  // PATCH /api/teams/:id  — manager OR team_lead of this team
+
   // team_lead: can update team_name and description only
   // manager: can also reassign team_lead
 const updateTeam = async (req, res, next) => {

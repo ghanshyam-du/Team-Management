@@ -1,7 +1,7 @@
 import User from "../model/user.model.js";
 
 
-export const getAllUsers = async (req, res, next) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find();
 
@@ -16,7 +16,7 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 
-export const getUser = async (req, res, next) => {
+const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -33,7 +33,7 @@ export const getUser = async (req, res, next) => {
 };
 
 
-export const deleteUser = async (req, res, next) => {
+const deleteUser = async (req, res, next) => {
   try {
     if (req.user._id.toString() === req.params.id) {
       return res.status(400).json({
