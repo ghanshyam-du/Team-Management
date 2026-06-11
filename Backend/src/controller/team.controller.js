@@ -2,7 +2,7 @@
   import joinTeam from "../model/member_join.model.js";
 
  
- export const getAllTeams = async (req, res, next) => {
+const getAllTeams = async (req, res, next) => {
   try {
     const teams = await Team.find()
       .populate("team_lead")
@@ -15,7 +15,7 @@
 };
 
 
-export const getMyTeams = async (req, res, next) => {
+const getMyTeams = async (req, res, next) => {
   try {
     const teams = await JoinTeam.find({
       userId: req.user._id
@@ -29,7 +29,7 @@ export const getMyTeams = async (req, res, next) => {
 };
 
 
-  export const getTeam = async (req, res, next) => {
+const getTeam = async (req, res, next) => {
     try {
       const team = await Team.findById(req.params.id)
         .populate("team_lead", "name email department")
@@ -55,7 +55,7 @@ export const getMyTeams = async (req, res, next) => {
   };
 
 
-  export const createTeam = async (req, res, next) => {
+const createTeam = async (req, res, next) => {
     try {
       const { team_name, description, team_lead } = req.body;
 
@@ -90,7 +90,7 @@ export const getMyTeams = async (req, res, next) => {
   // PATCH /api/teams/:id  — manager OR team_lead of this team
   // team_lead: can update team_name and description only
   // manager: can also reassign team_lead
-  export const updateTeam = async (req, res, next) => {
+const updateTeam = async (req, res, next) => {
     try {
       const team = await Team.findById(req.params.id);
       if (!team) {
@@ -146,7 +146,7 @@ export const getMyTeams = async (req, res, next) => {
   };
 
   
-  export const deleteTeam = async (req, res, next) => {
+const deleteTeam = async (req, res, next) => {
     try {
       const team = await Team.findById(req.params.id);
       if (!team) {
@@ -165,3 +165,10 @@ export const getMyTeams = async (req, res, next) => {
       next(err);
     }
   };
+
+export { getAllTeams,
+    getMyTeams,
+    getTeam,
+    createTeam,
+    updateTeam,
+    deleteTeam};

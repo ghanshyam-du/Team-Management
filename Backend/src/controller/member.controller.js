@@ -3,7 +3,7 @@ import User from "../model/user.model.js";
 import Team from "../model/team.model.js";
 
 
-export const getMembers = async (req, res, next) => {
+const getMembers = async (req, res, next) => {
     try {
         const team = await Team.findById(req.params.teamId);
         if (!team) {
@@ -24,7 +24,7 @@ export const getMembers = async (req, res, next) => {
 };
 
 
-export const addMember = async (req, res, next) => {
+const addMember = async (req, res, next) => {
     try {
         const { teamId } = req.params;
         const { userId } = req.body;
@@ -47,7 +47,7 @@ export const addMember = async (req, res, next) => {
                 message: "User is already a member of this team",
             });
         }
-        
+
         const membership = await JoinTeam.create({
             userId,
             teamId,
@@ -67,7 +67,7 @@ export const addMember = async (req, res, next) => {
 
 
 
-export const removeMember = async (req, res, next) => {
+const removeMember = async (req, res, next) => {
     try {
         const { teamId, userId } = req.params;
 
@@ -84,16 +84,16 @@ export const removeMember = async (req, res, next) => {
             });
         }
 
-  
+
         if (req.user.role !== "manager") {
-            
+
             if (membership.role === "team_lead") {
                 return res.status(403).json({
                     success: false,
                     message: "Team leads cannot remove other team leads",
                 });
             }
-        
+
             if (req.user._id.toString() === userId) {
                 return res.status(403).json({
                     success: false,
@@ -102,7 +102,7 @@ export const removeMember = async (req, res, next) => {
             }
         }
 
-      
+
         if (req.user.role === "manager" && membership.role === "team_lead") {
             return res.status(400).json({
                 success: false,
@@ -119,4 +119,11 @@ export const removeMember = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+};
+
+
+export {
+    getMembers,
+    addMember,
+    removeMember
 };
