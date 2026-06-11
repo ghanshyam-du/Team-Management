@@ -48,7 +48,7 @@ const addMember = async (req, res, next) => {
             });
         }
 
-        const membership = await JoinTeam.create({
+        const membership = await joinTeam.create({
             userId,
             teamId,
             role: "member"
