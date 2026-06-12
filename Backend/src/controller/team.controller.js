@@ -101,6 +101,8 @@ const updateTeam = async (req, res, next) => {
 
       const { team_name, description, team_lead } = req.body;
       const updates = {};
+      console.log("team le", team_lead);
+
 
       if (team_name) updates.team_name = team_name;
       if (description) updates.description = description;

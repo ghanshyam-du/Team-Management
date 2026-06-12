@@ -92,13 +92,12 @@ npm run dev
 
 ### Users
 
-> **Manager Only**
 
 | Method | Endpoint | Description |
 |----------|----------|-------------|
-| GET | `/api/users` | Fetch all employees |
+| GET | `/api/users` | manager only Fetch all employees |
 | GET | `/api/users/:id` | Fetch a specific employee |
-| DELETE | `/api/users/:id` | Delete an employee |
+| DELETE | `/api/users/:id` | manager only Delete an employee |
 
 ---
 

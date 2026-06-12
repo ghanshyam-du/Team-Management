@@ -54,7 +54,6 @@ export default function TeamCard({ team, token, currentUser, allUsers, onRefresh
 
   return (
     <div className="card">
-      {/* Team Header Row */}
       <div className="row">
         <div>
           <strong>{team.team_name}</strong>

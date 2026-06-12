@@ -43,6 +43,7 @@ export default function App() {
    
       const response = await api.users.getById(decoded.id, token);
       const user = response.data.user;
+      console.log("userrespon local", user  );
       setCurrentUser(user);
       localStorage.setItem("currentUser", JSON.stringify(user));
     } catch {

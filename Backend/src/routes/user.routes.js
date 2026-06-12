@@ -11,12 +11,12 @@ import {
 
 const router = Router();
 
-router.use(authenticate, managerOnly);
+router.use(authenticate);
 
-router.get("/", getAllUsers);
+router.get("/", managerOnly, getAllUsers);
 router.get("/:id", getUser);
 
-router.delete("/:id", deleteUser);
+router.delete("/:id", managerOnly, deleteUser);
 
 
 export default router;
